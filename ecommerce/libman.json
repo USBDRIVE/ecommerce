@@ -11,5 +11,18 @@
         "css/bootstrap.min.css"
       ]
     }
+  ,
+{
+  "library": "jquery@3.6.0",
+  "destination": "wwwroot/lib/jquery/"
+}
+,
+{
+  "library": "jquery@3.6.0",
+  "destination": "wwwroot/lib/jquery/",
+  "files": [
+    "jquery.min.js"
   ]
+}
+]
 }
