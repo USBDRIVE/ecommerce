@@ -24,6 +24,6 @@ namespace ecommerce.Models
         /// <summary>
         /// product category
         /// </summary>
-        public string category { get; set; }
+        public string Category { get; set; }
     }
 }

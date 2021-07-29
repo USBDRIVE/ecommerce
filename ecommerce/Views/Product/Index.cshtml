@@ -4,6 +4,17 @@
 }
 
 <h1>Product Catalog</h1>
+
+<p>
+    @TempData["Message"]
+</p>
+
+
+
+<a asp-action="Add">Add Product</a>
+
+
+
 <div class="table-responsive">
     <table class="table table-hover table-striped">
         <thead>
@@ -19,7 +30,7 @@
                 <tr>
                     <td>@p.Title</td>
                     <td>@Html.DisplayFor(m => p.Price)</td>
-                    <td>@p.category</td>
+                    <td>@p.Category</td>
                     <td>
                         <a class="btn btn-secondary" href="">Edit</a>
                         <a class="btn btn-danger" href="">Delete</a>
