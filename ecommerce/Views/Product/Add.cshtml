@@ -7,18 +7,21 @@
 <h1>Add</h1>
 
 <form method="post">
-    <label asp-for="Title"></label>
+    <label style="font-bold" asp-for="Title"></label>
+    <br />
     <input asp-for="Title" />
     <span asp-validation-for="Title"></span>
     <br />
-     <label asp-for="Price"></label>
+     <label style="font-bold" asp-for="Price"></label>
+    <br />
     <input asp-for="Price" />
     <span asp-validation-for="Price"></span>
     <br />
-     <label asp-for="category"></label>
+     <label style="font-bold" asp-for="category"></label>
+    <br />
     <input asp-for="category" />
     <span asp-validation-for="Title"></span>
     <br />
-     <input type="submit" />
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
