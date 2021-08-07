@@ -29,7 +29,7 @@
                     <td>@Html.DisplayFor(m => p.Price)</td>
                     <td>@p.category</td>                    <td>
                         <a class="btn btn-secondary" asp-route-id="@p.ProductId" asp-action="Edit">Edit</a>
-                        <a class="btn btn-danger" href="">Delete</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@p.ProductId">Delete</a>
                     </td>
                 </tr>
             }
