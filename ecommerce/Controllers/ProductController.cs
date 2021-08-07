@@ -19,16 +19,25 @@ namespace ecommerce.Controllers
             _context = context;
         }
         /// <summary>
-        /// Displays a view that lists all products
+        /// Displays a view that lists a page of products
         /// </summary>
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
+            int pageNum = id.HasValue ? id.Value : 1;
+            const int PageSize = 3;
+
             //get all products from database
             //List<Product> products = _context.Products.ToList();
             List<Product> products =
                   await (from p in _context.Products
-                         select p).ToListAsync();
+                         orderby p.Title ascending
+                         select p)
+                         .Skip(PageSize * (pageNum - 1)) // skip must be before take
+                         .Take(PageSize) 
+                         .ToListAsync();
+
+
             //send list of products to view to be dispalyed
             return View(products);
         }
