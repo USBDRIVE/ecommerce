@@ -25,27 +25,20 @@ namespace ecommerce.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             int pageNum = id.HasValue ? id.Value : 1;
-            const int PageSize = 3;
+            const int pageSize = 3;
 
             ViewData["CurrentPage"] = pageNum;
 
-            int numProducts = await (from p in _context.Products
-                               select p).CountAsync();
-            int totalPages = (int)Math.Ceiling((double)numProducts / PageSize);
+            int numProducts = await ProductDb.GetTotalProductsAsync(_context);
+            int totalPages = (int)Math.Ceiling((double)numProducts / pageSize);
 
             ViewData["MaxPage"] = totalPages;
 
 
 
-            //get all products from database
-            //List<Product> products = _context.Products.ToList();
-            List < Product > products =
-                  await (from p in _context.Products
-                         orderby p.Title ascending
-                         select p)
-                         .Skip(PageSize * (pageNum - 1)) // skip must be before take
-                         .Take(PageSize)
-                         .ToListAsync();
+
+            List<Product> products =
+                 await ProductDb.GetProductsAsync(_context, pageSize, pageNum);
 
 
             //send list of products to view to be dispalyed
@@ -61,9 +54,7 @@ namespace ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                //add to db
-                _context.Products.Add(p);
-                await _context.SaveChangesAsync();
+                await ProductDb.AddProduct(_context, p);
 
 
                 TempData["Message"] = $"{p.Title} was added successfully";
