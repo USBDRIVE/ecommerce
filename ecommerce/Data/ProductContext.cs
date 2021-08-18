@@ -15,6 +15,7 @@ namespace ecommerce.Data
 
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
 
     }
 }
