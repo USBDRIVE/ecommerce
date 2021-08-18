@@ -25,6 +25,9 @@ namespace ecommerce.Models
         [Display(Name = "Confirm Email")]
         public string ConfirmEmail { get; set; }
         [Required]
+        [StringLength(15)]
+        public string Username { get; set; }
+        [Required]
         [DataType(DataType.Password)]
         [StringLength(120, MinimumLength = 6, ErrorMessage ="Password must be between 6 and 120")]
         public string Password { get; set; }

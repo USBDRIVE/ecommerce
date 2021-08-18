@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ecommerce.Data;
+using ecommerce.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,38 @@ namespace ecommerce.Controllers
 {
     public class UserController : Controller
     {
+        private readonly ProductContext _context;
+        public UserController(ProductContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Register()
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult>  Register(RegisterViewModel reg)
+        {
+            if (ModelState.IsValid)
+            {
+                //map data to user account instance
+                UserAccount acc = new UserAccount()
+                {
+                    DateOfBirth = reg.DateOfBirth,
+                    Email = reg.Email,
+                    Password = reg.Password,
+                    Username = reg.Username
+                };
+
+                //add to database
+                _context.UserAccounts.Add(acc);
+                await _context.SaveChangesAsync();
+                //redirect to homepage
+                return RedirectToAction("Index", "Home");
+            }
+            return View(reg);
+        }
+       
     }
 }
