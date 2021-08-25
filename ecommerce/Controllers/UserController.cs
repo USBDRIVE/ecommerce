@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
 namespace ecommerce.Controllers
 {
     public class UserController : Controller
@@ -45,6 +45,11 @@ namespace ecommerce.Controllers
         }
         public IActionResult Login()
         {
+            //check if user alread logged in
+            if (HttpContext.Session.GetInt32("UserId").HasValue)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         [HttpPost]
@@ -68,6 +73,7 @@ namespace ecommerce.Controllers
                 return View(model);
             }
             // Log user into website
+            HttpContext.Session.SetInt32("UserId", account.UserId);
             return RedirectToAction("Index", "Home");
         }
        
