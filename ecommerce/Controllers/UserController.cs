@@ -1,6 +1,7 @@
 ﻿using ecommerce.Data;
 using ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,29 @@ namespace ecommerce.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+
+            UserAccount account =
+                await (from u in _context.UserAccounts
+                 where (u.Username == model.UsernameOrEmail
+                     || u.Email == model.UsernameOrEmail)
+                     && u.Password == model.Password
+                 select u).SingleOrDefaultAsync();
+            if(account == null)
+            {
+                //credentials did not match
+
+
+                //custom error message
+                ModelState.AddModelError(string.Empty, "Credentials were not found");
+
+                return View(model);
+            }
+            // Log user into website
+            return RedirectToAction("Index", "Home");
         }
        
     }
