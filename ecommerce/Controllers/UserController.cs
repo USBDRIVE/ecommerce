@@ -76,6 +76,13 @@ namespace ecommerce.Controllers
             HttpContext.Session.SetInt32("UserId", account.UserId);
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult Logout()
+        {
+            //destroy the session
+            HttpContext.Session.Clear();
+
+            return RedirectToAction(actionName:"Index", controllerName:"Home");
+        }
        
     }
 }
