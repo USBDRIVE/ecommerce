@@ -29,16 +29,32 @@ namespace ecommerce.Controllers
         {
             //get product from database
             Product p = await ProductDb.GetProductAsync(_context, id);
+            const string CartCookie = "CartCookie";
+
+            //Get existing cart items
+            string existingItems = _httpContext.HttpContext.Request.Cookies[CartCookie];
+            List<Product> cartProducts = new List<Product>();
+            if(existingItems != null)
+            {
+                 cartProducts = JsonConvert.DeserializeObject<List<Product>>(existingItems);
+            }
+            // Add current product to existing cart
+            cartProducts.Add(p);
+
             // Add proudct to cart cookie
-            string data = JsonConvert.SerializeObject(p);
+            string data = JsonConvert.SerializeObject(cartProducts);
             CookieOptions options = new CookieOptions()
             {
                 Expires = DateTime.Now.AddDays(300),
                 Secure = true,
                 IsEssential = true
             };
-            _httpContext.HttpContext.Response.Cookies.Append("CartCookie", data, options);
+
+
+            _httpContext.HttpContext.Response.Cookies.Append(CartCookie, data, options);
+
             //redirect back to previous page
+
             return RedirectToAction("Index","Product");
         }
         public IActionResult Summary()
