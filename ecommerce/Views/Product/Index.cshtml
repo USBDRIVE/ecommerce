@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Product>
+@inject IHttpContextAccessor http;
 @{
     ViewData["Title"] = "Product listings";
 }
@@ -22,6 +23,10 @@
             </tr>    
         </thead>
         <tbody>
+            @{
+                // mywebsite.com/Product/Index/5
+                string previousUrl = http.HttpContext.Request.Path;
+             }
             @foreach(Product p in Model)
             {
                 <tr>
@@ -30,7 +35,7 @@
                     <td>@p.category</td>                    <td>
                         <a class="btn btn-secondary" asp-route-id="@p.ProductId" asp-action="Edit">Edit</a>
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@p.ProductId">Delete</a>
-                        <a class="btn btn-primary" asp-route-id="@p.ProductId" asp-controller="Cart" asp-action="Add">Add to cart</a>
+                        <a class="btn btn-primary" asp-route-id="@p.ProductId" asp-route-previousUrl="@previousUrl" asp-controller="Cart" asp-action="Add">Add to cart</a>
                     </td>
                 </tr>
             }
