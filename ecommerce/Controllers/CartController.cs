@@ -25,7 +25,7 @@ namespace ecommerce.Controllers
         /// </summary>
         /// <param name="id">The id of the product to add</param>
         /// <returns></returns>
-        public async Task<IActionResult> Add(int id) // id of product to add
+        public async Task<IActionResult> Add(int id, string previousUrl) // id of product to add
         {
             //get product from database
             Product p = await ProductDb.GetProductAsync(_context, id);
@@ -36,7 +36,7 @@ namespace ecommerce.Controllers
 
             //redirect back to previous page
 
-            return RedirectToAction("Index","Product");
+            return Redirect(previousUrl);
         }
         public IActionResult Summary()
         {
